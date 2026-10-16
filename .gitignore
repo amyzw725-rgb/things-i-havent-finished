@@ -1,0 +1,9 @@
+# 系统 / 编辑器杂项
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# 临时验证截图（agent 调试时生成）
+_verify_*.png

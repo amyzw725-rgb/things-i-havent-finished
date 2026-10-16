@@ -1,0 +1,168 @@
+/* ==========================================================
+   视觉基调：深空 / 极简 / 安静
+   深色背景，柔和的白字，大量留白，不做游戏化 UI
+   ========================================================== */
+
+/* ---------- 基础重置 ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  padding: 56px 24px;
+
+  background: #08090c; /* 深空军黑 */
+  color: rgba(232, 236, 243, 0.86);
+
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- 页面容器 ---------- */
+/* margin: auto 让内容上下左右居中；内容比窗口高时也不会被裁掉 */
+.page {
+  margin: auto;
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ---------- 页头：两行很轻很淡的字，安静地停在画面之上 ---------- */
+.page__header {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.page__title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  color: rgba(236, 240, 246, 0.62);
+}
+
+.page__desc {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  color: rgba(226, 232, 240, 0.34);
+}
+
+/* ---------- 画布：不再是一个「卡片」，星体直接浮在整页的深空里 ---------- */
+.canvas-holder {
+  /* 故意不要边框、圆角和阴影：让画布和页面背景连成一片
+     （画布自身的径向渐变由 sketch.js 绘制，四周正好落到同一个深色上） */
+  background: #08090c;
+  line-height: 0; /* 去掉 canvas 底部的行内空隙 */
+}
+
+/* 让 canvas 随容器宽度自适应（高度由 sketch.js 按比例算） */
+.canvas-holder canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* ---------- LET GO：不是按钮，是一行很小的字 ----------
+   故意没有任何按钮特征：没有边框、没有底色、没有圆角、没有内边距式的方块感。
+   它只是一行很轻的字，静静地待在那里，像一句可以被点开的话。
+   hover 时只做很轻微的变化：字亮一点、字距松一点、底下浮出一条极细的线。 */
+.toolbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  min-height: 18px; /* 固定住高度，hover 时页面不会跳一下 */
+}
+
+.let-go {
+  position: relative;
+  display: inline-block;
+
+  /* 只给一条细线留一点位置，不撑出任何「按钮块」的体积 */
+  padding: 3px 0 5px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+
+  color: rgba(236, 241, 248, 0.4);
+  font-family: inherit;
+  font-size: 10.5px; /* 非常小 */
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.44em;
+  text-indent: 0.44em; /* 抵消末尾多出的一个字距，让这行字真正居中 */
+  text-transform: uppercase;
+
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color 0.5s ease, letter-spacing 0.5s ease,
+    text-indent 0.5s ease, text-shadow 0.5s ease;
+}
+
+/* 那条极细的线：平时不存在，hover 时从中间柔和地展开 */
+.let-go::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: width 0.5s ease, opacity 0.5s ease;
+}
+
+/* hover / 键盘聚焦：很轻微——亮一点、松一点、带一点光、底下浮出一条线 */
+.let-go:hover:not(:disabled),
+.let-go:focus-visible {
+  color: rgba(246, 249, 253, 0.86);
+  letter-spacing: 0.54em;
+  text-indent: 0.54em;
+  text-shadow: 0 0 14px rgba(214, 230, 255, 0.26);
+  outline: none;
+}
+
+.let-go:hover:not(:disabled)::after,
+.let-go:focus-visible::after {
+  width: 64%;
+  opacity: 0.45;
+}
+
+/* 按下的那一瞬间：更像是「松手」，而不是「点击」 */
+.let-go:active:not(:disabled) {
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 0 20px rgba(214, 230, 255, 0.38);
+}
+
+/* 没有选中任何星体时：淡到几乎看不见，也没有任何互动反馈 */
+.let-go:disabled {
+  color: rgba(255, 255, 255, 0.13);
+  cursor: default;
+}
+
+.let-go:disabled::after {
+  display: none;
+}
+
+/* ---------- 页脚 ---------- */
+.page__footer {
+  margin-top: 28px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.18);
+  text-align: center;
+}
